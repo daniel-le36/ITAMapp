@@ -1,0 +1,64 @@
+﻿@model ITAMapp.ViewModels.CategoryViewModel
+<link rel="stylesheet" type="text/css" href="~/css/table.css">
+
+<p id="label">Application Inventory</p>
+
+<div id="SearchButtons">
+    <select class="styled">
+        <option selected disabled>Choose Field...</option>
+        @foreach (var label in Model.labels)
+        {
+            <option>@label</option>
+
+        }
+        
+
+    </select>
+    <input value="Search">
+    <input type="Button" value="Apply" class="button" id="apply">
+    <a href="Application/Add" id="new"><button>Add New Item</button></a>
+
+
+</div>
+
+<table>
+    
+    <tr class="heading">
+        @foreach (var label in Model.labels)
+        {
+            <th>@label</th>
+
+        }
+    </tr>
+    @{var rowNum = 0; }
+    @foreach (var asset in Model.assets)
+    {
+        @if (rowNum == 0)
+        {
+            <tr>
+                @foreach (var property in asset.fields)
+                {
+                    <td>@property.FieldProperty</td>
+                }
+                <td><a href="@Url.Action("Edit", "Application", new { id = asset.identification }) "><img src="https://png.icons8.com/edit/p1em/16" title="Edit" width="16" height="16"></a></td>
+                <td><a href="@Url.Action("delete", "Application", new { id = asset.identification }) "><img src="https://png.icons8.com/trash/win10/16" title="Trash" width="16" height="16"></a></td>
+            </tr>
+
+        }
+        else
+        {
+            <tr class="alternate">
+                @foreach (var property in asset.fields)
+                {
+                    <td>@property.FieldProperty</td>
+                }
+                <td><img src="https://png.icons8.com/edit/p1em/16" title="Edit" width="16" height="16"></td>
+                <td><img src="https://png.icons8.com/trash/win10/16" title="Trash" width="16" height="16"></td>
+            </tr>
+        }
+
+
+
+    }
+
+</table>

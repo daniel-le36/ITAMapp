@@ -1,0 +1,32 @@
+﻿@model ITAMapp.ViewModels.CategoryViewModel
+
+
+
+@*<select asp-controller="Application" asp-action="ChangeCategory">
+        <option value=1>Application Inventory</option>
+        <option value=2>Infrastructure Inventory</option>
+        <option value=3>Software Licenses</option>
+        <option value=4>IT Contractors</option>
+    </select>*@
+
+<table>
+    <tr>
+        @foreach (var label in Model.labels)
+        {
+            <th>@label</th>
+
+        }
+    </tr>
+    @foreach (var asset in Model.assets)
+    {
+        <tr>
+            @foreach (var property in asset.fields)
+            {
+                //<th>@property.CategoryDescription</th>
+                //<th>@property.Identification</th>
+                //<th>@property.FieldLabel</th>
+                <th>@property.FieldProperty</th>
+            }
+        </tr>
+    }
+</table>

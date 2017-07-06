@@ -1,0 +1,160 @@
+﻿@model ITAMapp.ViewModels.AddAssetViewModel
+<link rel="stylesheet" type="text/css" href="~/css/add_style.css">
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.3.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+<span class="AddLabel">Add New Software License</span>
+
+<br><br>
+
+
+<div class="Entry">
+    <form method="post" action="test">
+        @{string identifierLabelId; }
+        @foreach (var field in Model.fields)
+        {
+            if (field.CollapsedBy == 0)
+            {
+
+
+                //If this field is the identifier field, sets this field as the unique identification in the database
+                if (field.IsIdentifier == true)
+                {
+                    identifierLabelId = field.FieldId.ToString();//FieldLabel.Replace(" ", "%20");field.FieldLabel;
+                    <input type=hidden name=identityLabelId value=@identifierLabelId />
+
+                }
+
+                int fieldId = field.FieldId;
+                @switch (@field.FieldType)
+                {
+                    case 1:
+                        //Dropdown Field
+                        <p>
+                            <label for="@field.FieldLabel">@field.FieldLabel: </label><select name="@field.FieldId" id="@field.FieldLabel">
+                                @foreach (var listValue in Model.dropdownFields)
+                                {
+                                    @if (listValue.FieldId == fieldId)
+                                    {
+                                        <option>@listValue.ListDescription</option>
+
+                                    }
+
+                                }
+                            </select>
+                        </p>
+                        break;
+
+                    case 2:
+                        //Checkbox
+                        <p>
+                            <label for="@field.FieldLabel">@field.FieldLabel</label>@Html.CheckBox(field.FieldId.ToString())@*<input type="checkbox" name="@field.FieldLabel" id="@field.FieldLabel"/>*@
+
+                            <fieldset>
+                                @foreach (var subField in Model.fields)
+                                {
+                                    if (subField.CollapsedBy == fieldId)
+                                    {
+
+                                        int subfieldId = field.FieldId;
+                                        @switch (subField.FieldType)
+                                        {
+                                            case 1:
+                                                //Dropdown Field
+                                        <span>
+                                            <label for="@subField.FieldLabel">@subField.FieldLabel: </label><select name="@subField.FieldId.ToString()" id="@subField.FieldLabel">
+                                                @foreach (var listValue in Model.dropdownFields)
+                                                {
+                                                    @if (listValue.FieldId == subfieldId)
+                                                    {
+                                                        <option>@listValue.ListDescription</option>
+
+                                                    }
+
+                                                }
+                                            </select>
+                                        </span>
+                                                break;
+
+                                            case 3:
+                                                //Date
+                                                <span>
+                                                    <label for="@subField.FieldLabel">@subField.FieldLabel</label><input type="date" name="@subField.FieldId.ToString()" id="@subField.FieldLabel" />
+                                                </span>
+                                                break;
+
+                                            case 4:
+                                                //Long text input
+                                                <span>
+                                                    <label for="@subField.FieldLabel">@subField.FieldLabel</label><textarea name="@subField.FieldId.ToString()" id="@subField.FieldLabel"></textarea>
+                                                </span>
+                                                break;
+
+                                            default:
+                                                <span>
+                                                    <label for="@subField.FieldLabel">@subField.FieldLabel</label><input name="@subField.FieldId.ToString()" id="@subField.FieldLabel" />
+                                                </span>
+                                                break;
+                                        }
+
+
+
+                                    }
+
+                                }
+
+
+                                </fieldset>
+
+
+                                </p>
+                        break;
+
+                    case 3:
+                        //Date
+                        <p>
+                            <label for="@field.FieldLabel">@field.FieldLabel</label><input type="date" name="@field.FieldId.ToString()" id="@field.FieldLabel"/>
+                        </p>
+                        break;
+
+                    case 4:
+                        //Long text input
+                        @*<div class="form-group">
+                            <label asp-for=@field.FieldLabel class="col-md-2 control-label"></label>
+                            <div class="col-md-10">
+                                <textarea asp-for=@field.FieldLabel class="form-control"> </textarea>
+                                <span asp-validation-for=@field.FieldLabel class="text-danger"></span>
+                            </div>
+                        </div>*@
+                        <p>
+                            <label for="@field.FieldLabel">@field.FieldLabel</label><textarea name="@field.FieldId.ToString()" id="@field.FieldLabel"  class="form-control"></textarea>
+                        </p>
+                    break;
+
+                default:
+                    @*<div class="form-group">
+                        <label asp-for=@field.FieldLabel class="col-md-2 control-label"></label>
+                        <div class="col-md-10">
+                            <input asp-for=@field.FieldLabel class="form-control"/>
+                            <span asp-validation-for=@field.FieldLabel class="text-danger"></span>
+                        </div>
+                    </div>*@
+                        <p>
+                            <label for="@field.FieldLabel">@field.FieldLabel</label><input name="@field.FieldId.ToString()" id="@field.FieldLabel" class="form-control"/>
+                        </p>
+                        break;
+                }
+
+            }
+
+
+
+        }
+        
+        <input type="submit" />
+
+    </form>
+
+
+
+</div>

@@ -1,0 +1,43 @@
+/*Title displaying the current category*/
+.AddLabel {
+	color: #aaaaaa;
+	font-family: "Helvetica";
+	font-size: 26px;
+}
+
+/*Div containing the form*/
+.Entry {
+	display: table;
+	margin: 0 auto;
+	border-spacing: 10px;
+    border-collapse: separate;
+
+}
+
+.Entry label, input{
+	display: table-cell;
+	border-radius: 4px;
+	font-family: "Helvetica";
+
+}
+
+.Entry p{
+	display: table-row;
+}
+
+input[type=checkbox]:checked ~.collapse {
+	display:none
+}
+
+/*Submit button*/
+#submit {
+	background-color: #75a9f9;
+    border: 1px solid #75a9f9;
+   	color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+	font-family: "Helvetica";
+	padding-left: 15px;
+	padding-right: 15px;
+}

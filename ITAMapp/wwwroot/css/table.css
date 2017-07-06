@@ -1,0 +1,70 @@
+﻿
+/*Highlights the current tab*/
+#chosen {
+    background-color: #2196f3;
+}
+
+/*Title displaying the current category*/
+#label {
+    color: #aaaaaa;
+    font-family: "Helvetica";
+    font-size: 26px;
+}
+
+/*General button style*/
+.button,button {
+    background-color: #4CAF50;
+    border: 1px solid #7a7a7a;
+    color: #606060;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    font-family: "Helvetica";
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+/*Div containing search bar and button*/
+#SearchButtons {
+    padding-bottom: 25px;
+}
+
+input {
+    color: #c0c0c0;
+}
+
+/*Button to submit search*/
+#apply {
+    background-color: #75a9f9;
+}
+
+/*Button to create new asset*/
+#new {
+    background-color: #4CAF50;
+    margin-left: 49%;
+}
+
+table {
+    font-family: "Helvetica";
+    font-size: 14px;
+    border-collapse: collapse;
+}
+
+/*Table headings*/
+.heading th {
+    border: 1px solid #929292;
+    background-color: #006e9f;
+    color: #ffffff;
+}
+
+
+td {
+    color: #929292;
+    border: 1px solid #929292;
+}
+
+/*Makes every other row background grey*/
+.alternate td {
+    background-color: #ececec;
+}
