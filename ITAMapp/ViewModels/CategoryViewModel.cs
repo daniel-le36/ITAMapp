@@ -21,6 +21,6 @@ namespace ITAMapp.ViewModels
             labels = labelList;
         }
         
-        
+        public string urlCategory { get; set; }
     }
 }

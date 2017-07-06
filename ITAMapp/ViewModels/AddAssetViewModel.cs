@@ -11,5 +11,6 @@ namespace ITAMapp.ViewModels
     {
         public List<CustomFields> fields { get; set; }
         public List<CustomFieldList> dropdownFields { get; set; }
+        public string urlCategory { get; set; }
     }
 }

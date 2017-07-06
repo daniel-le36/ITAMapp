@@ -16,7 +16,7 @@
     </select>
     <input value="Search">
     <input type="Button" value="Apply" class="button" id="apply">
-    <a href="Application/Add" id="new"><button>Add New Item</button></a>
+    <a href="/@Model.urlCategory/Add" id="new"><button>Add New Item</button></a>
 
 
 </div>
@@ -40,7 +40,7 @@
                 {
                     <td>@property.FieldProperty</td>
                 }
-                <td><a href="@Url.Action("Edit", "Application", new { id = asset.identification }) "><img src="https://png.icons8.com/edit/p1em/16" title="Edit" width="16" height="16"></a></td>
+                <td><a href="/@Model.urlCategory/Edit/@asset.identification"><img src="https://png.icons8.com/edit/p1em/16" title="Edit" width="16" height="16"></a></td>
                 <td><a href="@Url.Action("delete", "Application", new { id = asset.identification }) "><img src="https://png.icons8.com/trash/win10/16" title="Trash" width="16" height="16"></a></td>
             </tr>
 

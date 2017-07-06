@@ -14,20 +14,24 @@ namespace ITAMapp.Controllers
     public class ApplicationController : Controller
     {
         private readonly ITAMContext _context;
-        private int category = 1;
+        //private int category = 1;
+        private int categoryId;
         public ApplicationController(ITAMContext context)
 
         {
             _context = context;
+            
         }
         // GET: /<controller>/
-        public IActionResult Index()
+        public IActionResult Index(string category)
         {
             List<AssetViewModel> assetList = new List<AssetViewModel>();
-
+            categoryId = (from categories in _context.Categories
+                          where categories.UrlName == category
+                          select categories.CategoryId).FirstOrDefault();
             //Gets a list of the unique identification IDs for this category
             var uniqueIdentifications = (from identifications in _context.Identifications
-                                         where identifications.CategoryId == category
+                                         where identifications.CategoryId == categoryId
                                          select identifications).ToList();
 
             //Creates an AssetViewModel for each identification and adds it to a list
@@ -39,21 +43,28 @@ namespace ITAMapp.Controllers
 
             //Queries the list of fields for this category
             var labelList = (from label in _context.CustomFields
-                             where label.CategoryId == category
+                             where label.CategoryId == categoryId
                              select label.FieldLabel).ToList();
 
             //Creates a new CategoryViewModel and returns it
-            CategoryViewModel newCategory = new CategoryViewModel(assetList, labelList);
+            CategoryViewModel newCategory = new CategoryViewModel();
+            newCategory.assets = assetList;
+            newCategory.labels = labelList;
+            newCategory.urlCategory = category;
             return View(newCategory);
 
         }
 
-        public IActionResult Add ()
+
+        public IActionResult Add (string category)
         {
+            categoryId = (from categories in _context.Categories
+                          where categories.UrlName == category
+                          select categories.CategoryId).FirstOrDefault();
 
             //Queries the list of fields for this category
             List<CustomFields> properties = (from label in _context.CustomFields
-                              where label.CategoryId == category
+                              where label.CategoryId == categoryId
                               select new CustomFields
                               {
                                   FieldId = label.FieldId,
@@ -79,17 +90,19 @@ namespace ITAMapp.Controllers
             AddAssetViewModel addAsset = new AddAssetViewModel();
             addAsset.fields = properties;
             addAsset.dropdownFields = dropdownFields;
+            addAsset.urlCategory = category;
             return View(addAsset);
             
         }
 
+        [Route("test")]
         [HttpPost]
         public IActionResult test()
         {
             List<string> stuff = new List<string>();
             //Gets the list of fields for this category
             var labelList = (from label in _context.CustomFields
-                             where label.CategoryId == category
+                             where label.CategoryId == categoryId
                              select new CustomFields
                              {
                                  FieldId = label.FieldId,
@@ -110,7 +123,7 @@ namespace ITAMapp.Controllers
             string identifier = Request.Form[identifierLabel];
 
             //Adds this new identification to the database
-            _context.Identifications.Add(new Identifications { CategoryId = category, Identification = identifier });
+            _context.Identifications.Add(new Identifications { CategoryId = categoryId, Identification = identifier });
             _context.SaveChanges();
 
             //Gets the identification ID

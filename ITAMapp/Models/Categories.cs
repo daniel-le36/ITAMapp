@@ -7,5 +7,6 @@ namespace ITAMapp.Models
     {
         public int CategoryId { get; set; }
         public string CategoryDescription { get; set; }
+        public string UrlName { get; set; }
     }
 }

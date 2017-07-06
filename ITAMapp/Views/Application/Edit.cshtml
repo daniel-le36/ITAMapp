@@ -67,7 +67,17 @@
                                                         {
                                                             @if (listValue.FieldId == subfieldId)
                                                             {
-                                                                <option>@listValue.ListDescription</option>
+                                                                if (listValue.ListDescription == subField.FieldValue)
+                                                                {
+                                                                    <option selected>@listValue.ListDescription</option>
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    <option>@listValue.ListDescription</option>
+
+                                                                }
+
 
                                                             }
 
@@ -79,20 +89,20 @@
                                             case 3:
                                                 //Date
                                                 <span>
-                                                    <label for="@subField.FieldLabel">@subField.FieldLabel</label><input type="date" name="@subField.FieldId.ToString()" id="@subField.FieldLabel" />
+                                                    <label for="@subField.FieldLabel">@subField.FieldLabel</label><input type="date" name="@subField.FieldId.ToString()" id="@subField.FieldLabel" value="@subField.FieldValue"/>
                                                 </span>
                                                 break;
 
                                             case 4:
                                                 //Long text input
                                                 <span>
-                                                    <label for="@subField.FieldLabel">@subField.FieldLabel</label><textarea name="@subField.FieldId.ToString()" id="@subField.FieldLabel"></textarea>
+                                                    <label for="@subField.FieldLabel">@subField.FieldLabel</label><textarea name="@subField.FieldId.ToString()" id="@subField.FieldLabel">@subField.FieldValue</textarea>
                                                 </span>
                                                 break;
 
                                             default:
                                                 <span>
-                                                    <label for="@subField.FieldLabel">@subField.FieldLabel</label><input name="@subField.FieldId.ToString()" id="@subField.FieldLabel" />
+                                                    <label for="@subField.FieldLabel">@subField.FieldLabel</label><input name="@subField.FieldId.ToString()" id="@subField.FieldLabel" value="@subField.FieldValue"/>
                                                 </span>
                                                 break;
                                         }

@@ -32,7 +32,17 @@ namespace ITAMapp
             app.UseDeveloperExceptionPage();
             app.UseStatusCodePages();
             app.UseStaticFiles();
-            app.UseMvcWithDefaultRoute();
+            //app.UseMvcWithDefaultRoute();
+            app.UseMvc(routes => {
+                routes.MapRoute(
+                    "default",
+                    "{category}/{action}/{id?}",
+                    new {controller ="Application",category="Application",action="Index"}
+                    //template: "{controller=Application}/{action=Index}/{category=Application}/{id?}"
+                    );
+
+            });
+
         }
     }
 }

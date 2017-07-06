@@ -31,6 +31,8 @@ namespace ITAMapp.Models
                 entity.Property(e => e.CategoryDescription)
                     .IsRequired()
                     .HasMaxLength(100);
+
+                entity.Property(e => e.UrlName).HasMaxLength(20);
             });
 
             modelBuilder.Entity<CustomFieldList>(entity =>
