@@ -3,13 +3,13 @@
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.3.min.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
-<span class="AddLabel">Add New Software License</span>
+<span class="AddLabel">Edit @Model.urlCategory</span>
 
 <br><br>
 
 
 <div class="Entry">
-    <form method="post" action="/Application/update">
+    <form method="post" action="/@Model.urlCategory/update">
         @foreach (var field in Model.fields)
         {
             if (field.CollapsedBy == 0)
@@ -48,7 +48,18 @@
                     case 2:
                         //Checkbox
                         <p>
-                            <label for="@field.FieldLabel">@field.FieldLabel</label>@Html.CheckBox(field.FieldId.ToString())@*<input type="checkbox" name="@field.FieldLabel" id="@field.FieldLabel"/>*@
+                            <label for="@field.FieldLabel">@field.FieldLabel</label>
+                            @if (field.FieldValue == "Yes")
+                            {
+                                @Html.CheckBox(field.FieldId.ToString(),true)
+
+                            }
+                            else
+                            {
+                                @Html.CheckBox(field.FieldId.ToString())
+
+                            }
+                            @*<input type="checkbox" name="@field.FieldLabel" id="@field.FieldLabel"/>*@
 
                             <fieldset>
                                 @foreach (var subField in Model.fields)

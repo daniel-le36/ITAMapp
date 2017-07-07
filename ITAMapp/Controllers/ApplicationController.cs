@@ -14,8 +14,7 @@ namespace ITAMapp.Controllers
     public class ApplicationController : Controller
     {
         private readonly ITAMContext _context;
-        //private int category = 1;
-        private int categoryId;
+
         public ApplicationController(ITAMContext context)
 
         {
@@ -26,7 +25,7 @@ namespace ITAMapp.Controllers
         public IActionResult Index(string category)
         {
             List<AssetViewModel> assetList = new List<AssetViewModel>();
-            categoryId = (from categories in _context.Categories
+           var categoryId = (from categories in _context.Categories
                           where categories.UrlName == category
                           select categories.CategoryId).FirstOrDefault();
             //Gets a list of the unique identification IDs for this category
@@ -58,7 +57,7 @@ namespace ITAMapp.Controllers
 
         public IActionResult Add (string category)
         {
-            categoryId = (from categories in _context.Categories
+            var categoryId = (from categories in _context.Categories
                           where categories.UrlName == category
                           select categories.CategoryId).FirstOrDefault();
 
@@ -95,10 +94,13 @@ namespace ITAMapp.Controllers
             
         }
 
-        [Route("test")]
         [HttpPost]
-        public IActionResult test()
+        public IActionResult insert(string category)
         {
+            var categoryId = (from categories in _context.Categories
+                          where categories.UrlName == category
+                          select categories.CategoryId).FirstOrDefault();
+
             List<string> stuff = new List<string>();
             //Gets the list of fields for this category
             var labelList = (from label in _context.CustomFields
@@ -134,14 +136,23 @@ namespace ITAMapp.Controllers
             //Adds each field value from the form into the database
             foreach (var label in labelList)
             {
-                _context.FieldValues.Add(new FieldValues { FieldId = label.FieldId, FieldValue = Request.Form[label.FieldId.ToString()], IdentificationId = identificationId });
+                string formValue = Request.Form[label.FieldId.ToString()];
+                if(formValue == "true,false")
+                {
+                    formValue = "Yes";
+                }
+                if(formValue == "false")
+                {
+                    formValue = "No";
+                }
+                _context.FieldValues.Add(new FieldValues { FieldId = label.FieldId, FieldValue = formValue, IdentificationId = identificationId });
                 _context.SaveChanges();
             }
 
             return RedirectToAction("Index");
         }
 
-        public IActionResult Edit(int id)
+        public IActionResult Edit(string category, int id)
         {
             //Queries the list of dropdown values
             List<CustomFieldList> dropdownFields = (from items in _context.CustomFieldList
@@ -173,6 +184,7 @@ namespace ITAMapp.Controllers
             newViewModel.dropdownFields = dropdownFields;
             newViewModel.fields = fieldsList;
             newViewModel.identifier = id;
+            newViewModel.urlCategory = category;
 
             return View(newViewModel);
         }
@@ -186,7 +198,16 @@ namespace ITAMapp.Controllers
 
             foreach (var value in values)
             {
-                value.FieldValue = Request.Form[value.FieldId.ToString()];
+                string formValue = Request.Form[value.FieldId.ToString()];
+                if (formValue == "true,false")
+                {
+                    formValue = "Yes";
+                }
+                if (formValue == "false")
+                {
+                    formValue = "No";
+                }
+                value.FieldValue = formValue;
             }
 
             _context.SaveChanges();

@@ -3,13 +3,13 @@
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.3.min.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
-<span class="AddLabel">Add New Software License</span>
+<span class="AddLabel">Add New @Model.urlCategory</span>
 
 <br><br>
 
 
 <div class="Entry">
-    <form method="post" action="test">
+    <form method="post" action="/@Model.urlCategory/insert">
         @{string identifierLabelId; }
         @foreach (var field in Model.fields)
         {
@@ -20,7 +20,7 @@
                 //If this field is the identifier field, sets this field as the unique identification in the database
                 if (field.IsIdentifier == true)
                 {
-                    identifierLabelId = field.FieldId.ToString();//FieldLabel.Replace(" ", "%20");field.FieldLabel;
+                    identifierLabelId = field.FieldId.ToString();
                     <input type=hidden name=identityLabelId value=@identifierLabelId />
 
                 }
@@ -48,7 +48,7 @@
                     case 2:
                         //Checkbox
                         <p>
-                            <label for="@field.FieldLabel">@field.FieldLabel</label>@Html.CheckBox(field.FieldId.ToString())@*<input type="checkbox" name="@field.FieldLabel" id="@field.FieldLabel"/>*@
+                            <label for="@field.FieldLabel">@field.FieldLabel</label>@Html.CheckBox(field.FieldId.ToString())
 
                             <fieldset>
                                 @foreach (var subField in Model.fields)

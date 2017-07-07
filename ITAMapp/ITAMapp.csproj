@@ -14,6 +14,7 @@
     <Content Include="wwwroot\css\table.css" />
     <Content Include="wwwroot\Images\ivari-logo-social.jpg" />
     <Content Include="wwwroot\ivari-logo-social.jpg" />
+    <Content Include="wwwroot\Scripts\TableSort.js" />
     <Content Include="wwwroot\style.css" />
   </ItemGroup>
   <ItemGroup>
