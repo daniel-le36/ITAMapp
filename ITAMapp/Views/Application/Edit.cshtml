@@ -146,6 +146,33 @@
                         </p>
                         break;
 
+                    case 5:
+                        //Dropdown Field
+                        <p>
+                            @{ string[] values = field.FieldValue.Split(',');}
+                            <label for="@field.FieldLabel">@field.FieldLabel: </label><select name="@field.FieldId" id="@field.FieldLabel" multiple>
+                                @foreach (var listValue in Model.dropdownFields)
+                                {
+                                    @if (listValue.FieldId == fieldId)
+                                    {
+                                        if (values.Contains(listValue.ListDescription))
+                                        {
+                                            <option selected>@listValue.ListDescription</option>
+
+                                        }
+                                        else
+                                        {
+                                            <option>@listValue.ListDescription</option>
+
+                                        }
+
+                                    }
+
+                                }
+                            </select>
+                        </p>
+                        break;
+
                     default:
                         <p>
                             <label for="@field.FieldLabel">@field.FieldLabel</label><input name="@field.FieldId" id="@field.FieldLabel" value="@field.FieldValue"/>

@@ -1,8 +1,8 @@
 /*Title displaying the current category*/
 .AddLabel {
-	color: #aaaaaa;
-	font-family: "Helvetica";
-	font-size: 26px;
+    color: #aaaaaa;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 26px;
 }
 
 /*Div containing the form*/
@@ -17,12 +17,16 @@
 .Entry label, input{
 	display: table-cell;
 	border-radius: 4px;
-	font-family: "Helvetica";
+    color: red;
+	font-family: Arial, Helvetica, sans-serif;
 
 }
 
-.Entry p{
-	display: table-row;
+.Entry p {
+    display: table-row;
+    color: red;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 input[type=checkbox]:checked ~.collapse {
@@ -30,14 +34,14 @@ input[type=checkbox]:checked ~.collapse {
 }
 
 /*Submit button*/
-#submit {
-	background-color: #75a9f9;
+input[type=submit] {
+    background-color: #75a9f9;
     border: 1px solid #75a9f9;
-   	color: white;
+    color: white;
     text-align: center;
     text-decoration: none;
-    font-size: 16px;
-	font-family: "Helvetica";
-	padding-left: 15px;
-	padding-right: 15px;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-left: 15px;
+    padding-right: 15px;
 }

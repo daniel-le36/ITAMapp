@@ -1,22 +1,24 @@
 ﻿@model ITAMapp.ViewModels.CategoryViewModel
 <link rel="stylesheet" type="text/css" href="~/css/table.css">
-<script type="text/javascript" src="~/Scripts/TableSort.js"></script>
+@*<script type="text/javascript" src="~/Scripts/TableSort.js"></script>*@
 
 <p id="label">Application Inventory</p>
 
 <div id="SearchButtons">
-    <select class="styled">
-        <option selected disabled>Choose Field...</option>
+    @{ int n = 0;}
+    <select class="styled" id="filterByColumn">
         @foreach (var label in Model.labels)
         {
-            <option>@label</option>
+            <option value=@n  >@label</option>
+            n += 1;
 
         }
         
 
     </select>
-    <input value="Search">
-    <input type="Button" value="Apply" class="button" id="apply">
+    <input id="Search" placeholder="Search..."/>
+    <button onclick="filter()">Apply</button>
+    @*<input type="Button" value="Apply" class="button" id="apply" onclick="filter"/>*@
     <a href="/@Model.urlCategory/Add" id="new"><button>Add New Item</button></a>
 
 
@@ -54,8 +56,8 @@
                 {
                     <td>@property.FieldProperty</td>
                 }
-                <td><img src="https://png.icons8.com/edit/p1em/16" title="Edit" width="16" height="16"></td>
-                <td><img src="https://png.icons8.com/trash/win10/16" title="Trash" width="16" height="16"></td>
+                <td><a href="/@Model.urlCategory/Edit/@asset.identification"><img src="https://png.icons8.com/edit/p1em/16" title="Edit" width="16" height="16"></a></td>
+                <td><a href="/@Model.urlCategory/delete/@asset.identification"><img src="https://png.icons8.com/trash/win10/16" title="Trash" width="16" height="16"></a></td>
             </tr>
             rowNum -= 1;
         }
@@ -117,6 +119,28 @@
                 if (switchcount == 0 && dir == "asc") {
                     dir = "desc";
                     switching = true;
+                }
+            }
+        }
+    }
+
+    function filter() {
+        // Declare variables 
+        var input, filter, table, tr, td, i, column;
+        input = document.getElementById("Search");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("AssetTable");
+        tr = table.getElementsByTagName("tr");
+        column = document.getElementById("filterByColumn").value;
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[column];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
                 }
             }
         }

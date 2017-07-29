@@ -9,7 +9,7 @@
 
 
 <div class="Entry">
-    <form method="post" action="/@Model.urlCategory/insert">
+    <form method="post" action="/@Model.urlCategory/insert" >
         @{string identifierLabelId; }
         @foreach (var field in Model.fields)
         {
@@ -129,9 +129,26 @@
                         <p>
                             <label for="@field.FieldLabel">@field.FieldLabel</label><textarea name="@field.FieldId.ToString()" id="@field.FieldLabel"  class="form-control"></textarea>
                         </p>
-                    break;
+                        break;
 
-                default:
+                    case 5:
+                        //Dropdown Field
+                        <p>
+                            <label for="@field.FieldLabel">@field.FieldLabel: </label><select multiple name="@field.FieldId" id="@field.FieldLabel">
+                                @foreach (var listValue in Model.dropdownFields)
+                                {
+                                    @if (listValue.FieldId == fieldId)
+                                    {
+                                        <option>@listValue.ListDescription</option>
+
+                                    }
+
+                                }
+                            </select>
+                        </p>
+                        break;
+
+                    default:
                     @*<div class="form-group">
                         <label asp-for=@field.FieldLabel class="col-md-2 control-label"></label>
                         <div class="col-md-10">
