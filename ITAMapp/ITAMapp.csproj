@@ -8,9 +8,6 @@
   <ItemGroup>
     <Content Include="wwwroot\css\add_style.css" />
     <Content Include="wwwroot\css\header.css" />
-    <Content Include="wwwroot\css\style.css">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
     <Content Include="wwwroot\css\table.css" />
     <Content Include="wwwroot\Images\ivari-logo-social.jpg" />
     <Content Include="wwwroot\ivari-logo-social.jpg" />

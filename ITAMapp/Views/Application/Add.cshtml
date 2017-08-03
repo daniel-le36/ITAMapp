@@ -1,5 +1,5 @@
 ﻿@model ITAMapp.ViewModels.AddAssetViewModel
-<link rel="stylesheet" type="text/css" href="~/css/add_style.css">
+<link rel="stylesheet" type="text/css" href="~/css/add_style.css"/>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.3.min.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
@@ -48,7 +48,7 @@
                     case 2:
                         //Checkbox
                         <p>
-                            <label for="@field.FieldLabel">@field.FieldLabel</label>@Html.CheckBox(field.FieldId.ToString())
+                            <label for="@field.FieldLabel">@field.FieldLabel:</label>@Html.CheckBox(field.FieldId.ToString())
 
                             <fieldset>
                                 @foreach (var subField in Model.fields)
@@ -79,20 +79,20 @@
                                             case 3:
                                                 //Date
                                                 <span>
-                                                    <label for="@subField.FieldLabel">@subField.FieldLabel</label><input type="date" name="@subField.FieldId.ToString()" id="@subField.FieldLabel" />
+                                                    <label for="@subField.FieldLabel">@subField.FieldLabel:</label><input type="date" name="@subField.FieldId.ToString()" id="@subField.FieldLabel" />
                                                 </span>
                                                 break;
 
                                             case 4:
                                                 //Long text input
                                                 <span>
-                                                    <label for="@subField.FieldLabel">@subField.FieldLabel</label><textarea name="@subField.FieldId.ToString()" id="@subField.FieldLabel"></textarea>
+                                                    <label for="@subField.FieldLabel">@subField.FieldLabel:</label><textarea name="@subField.FieldId.ToString()" id="@subField.FieldLabel"></textarea>
                                                 </span>
                                                 break;
 
                                             default:
                                                 <span>
-                                                    <label for="@subField.FieldLabel">@subField.FieldLabel</label><input name="@subField.FieldId.ToString()" id="@subField.FieldLabel" />
+                                                    <label for="@subField.FieldLabel">@subField.FieldLabel:</label><input name="@subField.FieldId.ToString()" id="@subField.FieldLabel" />
                                                 </span>
                                                 break;
                                         }
@@ -113,7 +113,7 @@
                     case 3:
                         //Date
                         <p>
-                            <label for="@field.FieldLabel">@field.FieldLabel</label><input type="date" name="@field.FieldId.ToString()" id="@field.FieldLabel"/>
+                            <label for="@field.FieldLabel">@field.FieldLabel:</label><input type="date" name="@field.FieldId.ToString()" id="@field.FieldLabel"/>
                         </p>
                         break;
 
@@ -127,12 +127,12 @@
                             </div>
                         </div>*@
                         <p>
-                            <label for="@field.FieldLabel">@field.FieldLabel</label><textarea name="@field.FieldId.ToString()" id="@field.FieldLabel"  class="form-control"></textarea>
+                            <label for="@field.FieldLabel">@field.FieldLabel:</label><textarea name="@field.FieldId.ToString()" id="@field.FieldLabel"  class="form-control"></textarea>
                         </p>
                         break;
 
                     case 5:
-                        //Dropdown Field
+                        //Multiselect Field
                         <p>
                             <label for="@field.FieldLabel">@field.FieldLabel: </label><select multiple name="@field.FieldId" id="@field.FieldLabel">
                                 @foreach (var listValue in Model.dropdownFields)
@@ -157,7 +157,7 @@
                         </div>
                     </div>*@
                         <p>
-                            <label for="@field.FieldLabel">@field.FieldLabel</label><input name="@field.FieldId.ToString()" id="@field.FieldLabel" class="form-control"/>
+                            <label for="@field.FieldLabel">@field.FieldLabel:</label><input name="@field.FieldId.ToString()" id="@field.FieldLabel" class="form-control"/>
                         </p>
                         break;
                 }
@@ -169,6 +169,7 @@
         }
         
         <input type="submit" />
+        <input type="reset" value="Clear"/>
 
     </form>
 

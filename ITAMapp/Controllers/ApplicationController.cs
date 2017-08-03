@@ -25,15 +25,18 @@ namespace ITAMapp.Controllers
         public IActionResult Index(string category)
         {
             List<AssetViewModel> assetList = new List<AssetViewModel>();
-           var categoryId = (from categories in _context.Categories
+
+            //Gets the ID of the current category
+            var categoryId = (from categories in _context.Categories
                           where categories.UrlName == category
                           select categories.CategoryId).FirstOrDefault();
+
             //Gets a list of the unique identification IDs for this category
             var uniqueIdentifications = (from identifications in _context.Identifications
                                          where identifications.CategoryId == categoryId
                                          select identifications).ToList();
 
-            //Creates an AssetViewModel for each identification and adds it to a list
+            //Creates an AssetViewModel for each identification using the private createAsset method and adds it to a list
             foreach (var uniqueItem in uniqueIdentifications)
             {
                 assetList.Add(createAsset(uniqueItem.IdentificationId));
@@ -45,18 +48,15 @@ namespace ITAMapp.Controllers
                              where label.CategoryId == categoryId
                              select label.FieldLabel).ToList();
 
-            //Creates a new CategoryViewModel and returns it
-            CategoryViewModel newCategory = new CategoryViewModel();
-            newCategory.assets = assetList;
-            newCategory.labels = labelList;
-            newCategory.urlCategory = category;
-            return View(newCategory);
+            //Creates a new CategoryViewModel which contains the category, list of assets, and field names then returns it
+            return View(new CategoryViewModel { assets = assetList, labels = labelList, urlCategory = category});
 
         }
 
-
         public IActionResult Add (string category)
         {
+
+            //Gets the ID of the current category
             var categoryId = (from categories in _context.Categories
                           where categories.UrlName == category
                           select categories.CategoryId).FirstOrDefault();
@@ -85,23 +85,23 @@ namespace ITAMapp.Controllers
 
                                                     }).ToList();
 
-            //Creates a new AddAssetViewModel and returns it
-            AddAssetViewModel addAsset = new AddAssetViewModel();
-            addAsset.fields = properties;
-            addAsset.dropdownFields = dropdownFields;
-            addAsset.urlCategory = category;
-            return View(addAsset);
+            //Creates a new AddAssetViewModel which contains the list of fields, field values for dropdown fields, and the category then returns it
+            return View(new AddAssetViewModel { fields = properties, dropdownFields = dropdownFields, urlCategory = category});
             
         }
 
         [HttpPost]
         public IActionResult insert(string category)
         {
+
+            //Gets the ID of the current category
             var categoryId = (from categories in _context.Categories
                           where categories.UrlName == category
                           select categories.CategoryId).FirstOrDefault();
 
-            List<string> stuff = new List<string>();
+            //Creates a list that will hold all the field names for this category
+            List<string> fieldList = new List<string>();
+            
             //Gets the list of fields for this category
             var labelList = (from label in _context.CustomFields
                              where label.CategoryId == categoryId
@@ -114,7 +114,7 @@ namespace ITAMapp.Controllers
             //Adds each field value from the form into the database
             foreach (var label in labelList)
             {
-                stuff.Add(Request.Form[label.FieldLabel].ToString());
+                fieldList.Add(Request.Form[label.FieldLabel].ToString());
 
             }
 
@@ -126,9 +126,11 @@ namespace ITAMapp.Controllers
 
             //Adds this new identification to the database
             _context.Identifications.Add(new Identifications { CategoryId = categoryId, Identification = identifier });
+
+            //Saves changes made to the database
             _context.SaveChanges();
 
-            //Gets the identification ID
+            //Gets the recently added identification ID
             int identificationId = (from identifications in _context.Identifications
                                     where identifications.Identification == identifier
                                     select identifications.IdentificationId).SingleOrDefault();
@@ -136,16 +138,26 @@ namespace ITAMapp.Controllers
             //Adds each field value from the form into the database
             foreach (var label in labelList)
             {
+
+                //Gets the field value from the form
                 string formValue = Request.Form[label.FieldId.ToString()];
+
+                //Changes checked checkbox value to Yes
                 if(formValue == "true,false")
                 {
                     formValue = "Yes";
                 }
+
+                //Changes unchecked checkbox value to No
                 if(formValue == "false")
                 {
                     formValue = "No";
                 }
+
+                //Creates a new FieldValue object and adds it to the database
                 _context.FieldValues.Add(new FieldValues { FieldId = label.FieldId, FieldValue = formValue, IdentificationId = identificationId });
+
+                //Saves changes made to the database
                 _context.SaveChanges();
             }
 
@@ -154,7 +166,7 @@ namespace ITAMapp.Controllers
 
         public IActionResult Edit(string category, int id)
         {
-            //Queries the list of dropdown values
+            //Queries the list of dropdown fields
             List<CustomFieldList> dropdownFields = (from items in _context.CustomFieldList
                                                     select new CustomFieldList
                                                     {
@@ -164,53 +176,100 @@ namespace ITAMapp.Controllers
 
                                                     }).ToList();
 
-            //Creates a list that joins a field's data with its value into a FieldInfo object
-            List<FieldInfo> fieldsList = (from fields in _context.CustomFields
-                                join values in _context.FieldValues on fields.FieldId equals values.FieldId
-                                where values.IdentificationId == id
-                                select new FieldInfo
-                                {
-                                    FieldId = fields.FieldId,
-                                    FieldLabel = fields.FieldLabel,
-                                    FieldType = fields.FieldType,
-                                    IsIdentifier = fields.IsIdentifier,
-                                    FieldValue = values.FieldValue,
-                                    CollapsedBy = fields.CollapsedBy
+            //Gets the ID of the current category
+            var categoryId = (from categories in _context.Categories
+                              where categories.UrlName == category
+                              select categories.CategoryId).FirstOrDefault();
 
-                                }).ToList();
+            //Queries the list of fields for this category and inputs their info into a FieldInfo object
+            //This object is almost identical to a CustomFields object except it can also store the value of the field
+            List<FieldInfo> properties = (from label in _context.CustomFields
+                                             where label.CategoryId == categoryId
+                                             select new FieldInfo
+                                             {
+                                                 FieldId = label.FieldId,
+                                                 FieldLabel = label.FieldLabel,
+                                                 FieldType = label.FieldType,
+                                                 CollapsedBy = label.CollapsedBy,
+                                                 IsIdentifier = label.IsIdentifier
+                                             }).ToList();
 
-            //Creates a new EditAssetViewModel and populates it
-            EditAssetViewModel newViewModel = new EditAssetViewModel();
-            newViewModel.dropdownFields = dropdownFields;
-            newViewModel.fields = fieldsList;
-            newViewModel.identifier = id;
-            newViewModel.urlCategory = category;
+            //For each field, inserts the value corresponding to the field value for the current item
+            foreach(var field in properties)
+            {
+                //Gets the value for this item's field 
+                var fieldValue = (from values in _context.FieldValues
+                                  where values.FieldId == field.FieldId && values.IdentificationId == id
+                                  select values.FieldValue).FirstOrDefault();
 
-            return View(newViewModel);
+                //Sets the value of the field to the item's field
+                field.FieldValue = fieldValue;
+                
+            }
+
+            //Creates a new EditAssetViewModel which contains the list of dropdown values, list fields with their values, the id, and category then returns it
+            return View(new EditAssetViewModel { dropdownFields = dropdownFields, fields = properties, identifier = id, urlCategory = category});
         }
         [HttpPost]
-        public IActionResult update()
+        public IActionResult update(string category)
         {
-            //Gets all the field values from the database that belong to the chosen identification
-            List<FieldValues> values = (from value in _context.FieldValues
-                          where value.IdentificationId == int.Parse(Request.Form["identifier"])
-                          select value).ToList();
+            //Gets the ID of the current category
+            var categoryId = (from categories in _context.Categories
+                              where categories.UrlName == category
+                              select categories.CategoryId).FirstOrDefault();
 
-            foreach (var value in values)
+            //Creates a list that will hold the field IDs for this category
+            List<int> fields = (from fieldList in _context.CustomFields
+                          where fieldList.CategoryId == categoryId
+                          select fieldList.FieldId).ToList();
+
+            //Gets the identification number of the item from the form
+            int identification = int.Parse(Request.Form["identifier"]);
+
+            //For each field in this category, updates the current field value or adds a new field value if one does not exist
+            foreach(var fieldId in fields)
             {
-                string formValue = Request.Form[value.FieldId.ToString()];
+
+                //Gets the value of the current item's field
+                var valueForId = (from fieldVal in _context.FieldValues
+                                  where fieldVal.FieldId == fieldId && fieldVal.IdentificationId == identification
+                                  select fieldVal.FieldValue).FirstOrDefault();
+
+                //Gets the value of the current field from the form
+                string formValue = Request.Form[fieldId.ToString()];
+
+                //Changes checked checkbox value to Yes
                 if (formValue == "true,false")
                 {
                     formValue = "Yes";
                 }
+
+                //Changes unchecked checkbox value to No
                 if (formValue == "false")
                 {
                     formValue = "No";
                 }
-                value.FieldValue = formValue;
-            }
 
-            _context.SaveChanges();
+                //Adds a new FieldValue to the database if a new field was added after this item was added to the database
+                if(valueForId == null)
+                {
+                    _context.FieldValues.Add(new FieldValues { FieldId = fieldId, IdentificationId = identification, FieldValue = formValue });
+
+                }
+
+                //Updates the field's current value
+                else
+                {
+                    var currentVal = (from value in _context.FieldValues
+                                      where value.IdentificationId == identification && value.FieldId == fieldId
+                                      select value).FirstOrDefault();
+                    currentVal.FieldValue = formValue;
+                }
+
+                //Saves changes made to the database
+                _context.SaveChanges();
+
+            }
 
             return RedirectToAction("Index");
         }
@@ -240,6 +299,7 @@ namespace ITAMapp.Controllers
         //Private method to create and return an AssetViewModel corresponding to the given identification ID
         private AssetViewModel createAsset(int identificationID)
         {
+            //Creates list of PropertyViewModels which contain the category name, identification, field name, and the value of the field
             List<PropertyViewModel> propertyList = new List<PropertyViewModel>();
 
             //Queries a list of the property values for this identification
@@ -257,7 +317,7 @@ namespace ITAMapp.Controllers
                              }
                         ).ToList();
 
-            //Creates a PropertyViewModel for each Property object queried and adds it to alist
+            //Creates a PropertyViewModel for each Property object queried and adds it to a list
             foreach (var item in queryData)
             {
                 propertyList.Add(new PropertyViewModel()
@@ -270,10 +330,7 @@ namespace ITAMapp.Controllers
             }
 
             //Creates the AssetViewModel and returns it
-            AssetViewModel newAsset = new AssetViewModel();
-            newAsset.fields = propertyList;
-            newAsset.identification = identificationID;
-            return newAsset;
+            return new AssetViewModel {fields = propertyList, identification = identificationID } ;
         }
     }
 }

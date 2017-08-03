@@ -147,17 +147,25 @@
                         break;
 
                     case 5:
-                        //Dropdown Field
+                        //Multiselect Field
                         <p>
-                            @{ string[] values = field.FieldValue.Split(',');}
+                            @{ string[] values = null;
+                                if (field.FieldValue != null){
+                                    values = field.FieldValue.Split(',');
+                                };
+                                }
                             <label for="@field.FieldLabel">@field.FieldLabel: </label><select name="@field.FieldId" id="@field.FieldLabel" multiple>
                                 @foreach (var listValue in Model.dropdownFields)
                                 {
                                     @if (listValue.FieldId == fieldId)
                                     {
-                                        if (values.Contains(listValue.ListDescription))
+                                        if (values != null)
                                         {
-                                            <option selected>@listValue.ListDescription</option>
+                                            if (values.Contains(listValue.ListDescription))
+                                            {
+                                                <option selected>@listValue.ListDescription</option>
+                                            }
+
 
                                         }
                                         else
@@ -187,6 +195,7 @@
         }
         <input type="hidden" name="identifier" value="@Model.identifier" />
         <input type="submit" />
+        <input type="reset" value="Clear" />
         
 
     </form>

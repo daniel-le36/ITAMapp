@@ -1,47 +1,62 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
 /*Title displaying the current category*/
 .AddLabel {
     color: #aaaaaa;
-    font-family: Arial, Helvetica, sans-serif;
     font-size: 26px;
 }
 
 /*Div containing the form*/
 .Entry {
 	display: table;
-	margin: 0 auto;
+	
 	border-spacing: 10px;
     border-collapse: separate;
 
 }
+fieldset{
+    font-size: 14px;
+}
 
-.Entry label, input{
+.Entry label, input, select, textarea{
 	display: table-cell;
 	border-radius: 4px;
-    color: red;
-	font-family: Arial, Helvetica, sans-serif;
+    width: 200px;
 
 }
 
 .Entry p {
     display: table-row;
-    color: red;
-    font-size: 14px;
-    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
 }
 
 input[type=checkbox]:checked ~.collapse {
 	display:none
 }
 
+input[type=checkbox]{
+    width:auto;
+}
 /*Submit button*/
-input[type=submit] {
-    background-color: #75a9f9;
-    border: 1px solid #75a9f9;
+input[type=submit], input[type=reset] {
+    background-color: #5EBB10;
+    border: 1px solid #85B95B;
     color: white;
+    margin-top: 10px;
     text-align: center;
     text-decoration: none;
     font-size: 14px;
-    font-family: Arial, Helvetica, sans-serif;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding: 5px 25px 5px 25px;
+    width:auto;
+    cursor: pointer;
+}
+
+textarea {
+    height: 75px;
+}
+
+input[type=reset] {
+    background-color: #F75048;
+    border: 1px solid #F93C33;
 }
