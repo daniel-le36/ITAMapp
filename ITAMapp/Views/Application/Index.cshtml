@@ -44,8 +44,8 @@
                 {
                     <td>@property.FieldProperty</td>
                 }
-                <td><a href="/@Model.urlCategory/Edit/@asset.identification"><img src="https://png.icons8.com/edit/p1em/16" title="Edit" width="16" height="16"></a></td>
-                <td><a href="/@Model.urlCategory/delete/@asset.identification"><img src="https://png.icons8.com/trash/win10/16" title="Trash" width="16" height="16"></a></td>
+                <td><a href="/@Model.urlCategory/Edit/@asset.identification" ><img src="https://png.icons8.com/edit/p1em/16" title="Edit" width="16" height="16"></a></td>
+                <td><a href="/@Model.urlCategory/delete/@asset.identification" onclick="return confirm('Are you sure you want to delete?')"><img src="https://png.icons8.com/trash/win10/16" title="Trash" width="16" height="16"></a></td>
             </tr>
             rowNum += 1;
         }
@@ -57,7 +57,7 @@
                     <td>@property.FieldProperty</td>
                 }
                 <td><a href="/@Model.urlCategory/Edit/@asset.identification"><img src="https://png.icons8.com/edit/p1em/16" title="Edit" width="16" height="16"></a></td>
-                <td><a href="/@Model.urlCategory/delete/@asset.identification"><img src="https://png.icons8.com/trash/win10/16" title="Trash" width="16" height="16"></a></td>
+                <td><a href="/@Model.urlCategory/delete/@asset.identification" onclick="return confirm('Are you sure you want to delete?')"><img src="https://png.icons8.com/trash/win10/16" title="Trash" width="16" height="16"></a></td>
             </tr>
             rowNum -= 1;
         }

@@ -165,14 +165,14 @@
                                             {
                                                 <option selected>@listValue.ListDescription</option>
                                             }
+                                            else
+                                            {
+                                                <option>@listValue.ListDescription</option>
 
+                                            }
 
                                         }
-                                        else
-                                        {
-                                            <option>@listValue.ListDescription</option>
 
-                                        }
 
                                     }
 
@@ -190,12 +190,10 @@
 
             }
 
-
-
         }
         <input type="hidden" name="identifier" value="@Model.identifier" />
-        <input type="submit" />
-        <input type="reset" value="Clear" />
+        <input type="submit" onclick="return confirm('Are you sure you want to save changes?')"/>
+        <input type="reset" value="Clear" onclick="return confirm('Are you sure you want to clear?')"/>
         
 
     </form>

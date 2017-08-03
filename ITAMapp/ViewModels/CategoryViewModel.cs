@@ -14,12 +14,6 @@ namespace ITAMapp.ViewModels
         {
 
         }
-
-        public CategoryViewModel(List<AssetViewModel> assetList, List<string> labelList)
-        {
-            assets = assetList;
-            labels = labelList;
-        }
         
         public string urlCategory { get; set; }
     }
