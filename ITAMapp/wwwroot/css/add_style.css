@@ -40,23 +40,28 @@ input[type=checkbox]{
 }
 /*Submit button*/
 input[type=submit], input[type=reset] {
-    background-color: #5EBB10;
-    border: 1px solid #85B95B;
-    color: white;
+    border: 1px solid #0074A3;
+    border-radius: 0px;
+    background-color: white;
+    color: #0074A3;
     margin-top: 10px;
     text-align: center;
     text-decoration: none;
     font-size: 14px;
     padding: 5px 25px 5px 25px;
-    width:auto;
+    width: auto;
     cursor: pointer;
 }
 
+fieldset{
+    border: 0;
+    margin-left: 10px;
+}
 textarea {
     height: 75px;
 }
 
 input[type=reset] {
-    background-color: #F75048;
-    border: 1px solid #F93C33;
+    border: 1px solid #0074A3;
+    color: #0074A3;
 }

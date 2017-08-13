@@ -1,21 +1,45 @@
-.menu span {
-	border: 1px solid #aaaaaa;
-	border-bottom: 1px solid #006e9f;
-	border-top-left-radius: 8px;	
-	border-top-right-radius: 8px;
-	width: 160px;
-	height: 30px;
-	line-height: 30px;
-	font-size: 16px;
-	font-family: Arial, Helvetica, sans-serif;
-	color: white;
-	display:inline-block;
-	background-color: #bb285c;
-	text-align: center;
-	vertical-align: middle;
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Aspira-Regular',Arial, Helvetica, sans-serif;
 }
 
+.menu {
+    height: 40px;
+    width: 100%;
+    background-color: #F4F4F4;
+    border: 1px solid #D9D9D9;
+}
+    .menu span {
+        height: 24px;
+        line-height: 30px;
+        color: #424242;
+        font-size: 14px;
+        font-weight: 600;
+        display: inline-block;
+        text-align: center;
+        text-shadow: #ffffff 0px 1px 0px;
+        text-size-adjust: 100%;
+        vertical-align: middle;
+
+        border-bottom-style: none;
+        border-left: none;
+        border-right: none;
+        border-spacing: 20px;
+        margin-right: 10px;
+        margin-left: 10px !important;
+    }
+
+
 .ColorBar {
-	background-color: #006e9f;
-	height: 30px;
+    background-color: #0074A3;
+    height: 36px;
+    width: 100%;
+}
+
+@font-face {
+    font-family: 'Aspira';
+    src: url('../fonts/aspira-2.woff'), url('../fonts/Aspira-Regular.woff2') format('woff2'), url('../fonts/Aspira-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }

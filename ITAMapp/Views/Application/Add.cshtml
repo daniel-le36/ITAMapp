@@ -9,7 +9,7 @@
 
 
 <div class="Entry">
-    <form method="post" action="/@Model.urlCategory/insert" >
+    <form method="post" action="/@Model.urlCategory/insert" onsubmit="return checkboxCheck()" >
         @{string identifierLabelId; }
         @foreach (var field in Model.fields)
         {
@@ -31,7 +31,8 @@
                     case 1:
                         //Dropdown Field
                         <p>
-                            <label for="@field.FieldLabel">@field.FieldLabel: </label><select name="@field.FieldId" id="@field.FieldLabel">
+                            <label for="@field.FieldLabel">@field.FieldLabel: </label><select name="@field.FieldId" id="@field.FieldLabel" required>
+                            <option></option>
                                 @foreach (var listValue in Model.dropdownFields)
                                 {
                                     @if (listValue.FieldId == fieldId)
@@ -48,9 +49,16 @@
                     case 2:
                         //Checkbox
                         <p>
-                            <label for="@field.FieldLabel">@field.FieldLabel:</label>@Html.CheckBox(field.FieldId.ToString())
-
-                            <fieldset>
+                            <label for="@field.FieldLabel">@field.FieldLabel:</label>
+                            <input id="@field.FieldId.ToString()"
+                                   name="@field.FieldId.ToString()"
+                                   onchange="checkboxRequired(@field.FieldId.ToString())"
+                                   type="checkbox"/>
+                            
+                           
+                            <fieldset id="set_@field.FieldId.ToString()">
+                                <legend>If yes...</legend>
+                                <hr />
                                 @foreach (var subField in Model.fields)
                                 {
                                     if (subField.CollapsedBy == fieldId)
@@ -63,6 +71,7 @@
                                                 //Dropdown Field
                                         <span>
                                             <label for="@subField.FieldLabel">@subField.FieldLabel: </label><select name="@subField.FieldId.ToString()" id="@subField.FieldLabel">
+                                            <option disabled selected></option>
                                                 @foreach (var listValue in Model.dropdownFields)
                                                 {
                                                     @if (listValue.FieldId == subfieldId)
@@ -113,28 +122,21 @@
                     case 3:
                         //Date
                         <p>
-                            <label for="@field.FieldLabel">@field.FieldLabel:</label><input type="date" name="@field.FieldId.ToString()" id="@field.FieldLabel"/>
+                            <label for="@field.FieldLabel">@field.FieldLabel:</label><input type="date" name="@field.FieldId.ToString()" id="@field.FieldLabel" required/>
                         </p>
                         break;
 
                     case 4:
                         //Long text input
-                        @*<div class="form-group">
-                            <label asp-for=@field.FieldLabel class="col-md-2 control-label"></label>
-                            <div class="col-md-10">
-                                <textarea asp-for=@field.FieldLabel class="form-control"> </textarea>
-                                <span asp-validation-for=@field.FieldLabel class="text-danger"></span>
-                            </div>
-                        </div>*@
                         <p>
-                            <label for="@field.FieldLabel">@field.FieldLabel:</label><textarea name="@field.FieldId.ToString()" id="@field.FieldLabel"  class="form-control"></textarea>
+                            <label for="@field.FieldLabel">@field.FieldLabel:</label><textarea name="@field.FieldId.ToString()" id="@field.FieldLabel"  class="form-control" required></textarea>
                         </p>
                         break;
 
                     case 5:
                         //Multiselect Field
                         <p>
-                            <label for="@field.FieldLabel">@field.FieldLabel: </label><select multiple name="@field.FieldId" id="@field.FieldLabel">
+                            <label for="@field.FieldLabel">@field.FieldLabel: </label><select multiple name="@field.FieldId" id="@field.FieldLabel" required>
                                 @foreach (var listValue in Model.dropdownFields)
                                 {
                                     @if (listValue.FieldId == fieldId)
@@ -149,15 +151,8 @@
                         break;
 
                     default:
-                    @*<div class="form-group">
-                        <label asp-for=@field.FieldLabel class="col-md-2 control-label"></label>
-                        <div class="col-md-10">
-                            <input asp-for=@field.FieldLabel class="form-control"/>
-                            <span asp-validation-for=@field.FieldLabel class="text-danger"></span>
-                        </div>
-                    </div>*@
                         <p>
-                            <label for="@field.FieldLabel">@field.FieldLabel:</label><input name="@field.FieldId.ToString()" id="@field.FieldLabel" class="form-control"/>
+                            <label for="@field.FieldLabel">@field.FieldLabel:</label><input name="@field.FieldId.ToString()" id="@field.FieldLabel" class="form-control" required/>
                         </p>
                         break;
                 }
@@ -168,7 +163,7 @@
 
         }
         
-        <input type="submit" onclick="return confirm('Are you sure you want to submit?')"/>
+        <input type="submit" />
         <input type="reset" value="Clear" onclick="return confirm('Are you sure you want to clear?')"/>
 
     </form>
@@ -176,3 +171,96 @@
 
 
 </div>
+
+<script>
+
+    function checkboxRequired(fieldId) {
+        
+        var check = document.getElementById(fieldId);
+        var fieldset = document.getElementById("set_" + fieldId);
+
+        var inputsList = fieldset.getElementsByTagName("input");
+        var textareasList = fieldset.getElementsByTagName("textarea");
+        var selectsList = fieldset.getElementsByTagName("select");
+        for (var j = 0; j < inputsList.length; j++) {
+            var input = document.getElementById(inputsList[j].id);
+            if (check.checked == true) {
+                input.setAttribute("required","");
+            }
+            else {
+                input.removeAttribute("required");
+
+            }
+
+        }
+
+        for (var j = 0; j < textareasList.length; j++) {
+            var input = document.getElementById(textareasList[j].id);
+            if (check.checked == true) {
+                input.setAttribute("required", "");
+            }
+            else {
+                input.removeAttribute("required");
+
+            }
+
+        }
+
+        for (var j = 0; j < selectsList.length; j++) {
+            var input = document.getElementById(selectsList[j].id);
+            if (check.checked == true) {
+                input.setAttribute("required", "");
+            }
+            else {
+                input.removeAttribute("required");
+
+            }
+           
+}
+
+    }
+
+    function checkboxCheck() {
+        var submit = confirm("Are you sure you want to submit?");
+        if (submit == true) {
+            var fieldsets = document.getElementsByTagName("fieldset");
+            for (var i = 0; i < fieldsets.length; i++) {
+            if (document.getElementById(fieldsets[i].id.substring(4)).checked == false) {
+                var inputsList = fieldsets[i].getElementsByTagName("input");
+                var textareasList = fieldsets[i].getElementsByTagName("textarea");
+                var selectsList = fieldsets[i].getElementsByTagName("select");
+                for (var j = 0; j < inputsList.length; j++) {
+                    var input = document.getElementById(inputsList[j].id);
+                    input.value = '';
+
+                }
+
+                for (var j = 0; j < textareasList.length; j++) {
+                    var input = document.getElementById(textareasList[j].id);
+                    input.value = '';
+
+                }
+
+                for (var j = 0; j < selectsList.length; j++) {
+                    var input = document.getElementById(selectsList[j].id);
+                    input.value = '';
+
+                }
+
+            }
+
+            return true
+        }
+
+
+    }
+        else {
+            return false;
+
+        }
+
+        
+
+    }
+
+</script>

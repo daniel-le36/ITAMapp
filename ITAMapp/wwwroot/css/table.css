@@ -15,14 +15,13 @@
 }
 
 /*General button style*/
-.button,button {
-    background-color: #4CAF50;
-    border: 1px solid #7a7a7a;
-    color: #606060;
+.button, button {
+    background-color: white;
+    border: 1px solid #0074A3;
+    color: #0074A3;
     text-align: center;
     text-decoration: none;
     font-size: 16px;
-    border-radius: 4px;
     cursor: pointer;
 }
 
@@ -36,34 +35,36 @@ input {
     color: #c0c0c0;
 }
 
-/*Button to submit search*/
-#apply {
-    background-color: #75a9f9;
-}
-
 /*Button to create new asset*/
 #new {
-    background-color: #4CAF50;
-    margin-left: 49%;
+    margin-left: 15px;
 }
 
 table {
     font-size: 14px;
     border-collapse: collapse;
+    border: 1px solid #dddddd;
 }
 
 /*Table headings*/
 .heading th {
-    border: 1px solid #929292;
-    background-color: #006e9f;
+    background-color: #46A8D7;
+    border: 2px solid #dddddd;
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif;
     color: #ffffff;
     cursor: pointer;
+    padding: 8px;
+    line-height: 20px;
+    vertical-align: bottom;
+    font-weight: bold;
 }
 
 
 td {
     color: #929292;
-    border: 1px solid #929292;
+    border: 2px solid #dddddd;
+    font-size: 15px;
 }
 
 /*Makes every other row background grey*/

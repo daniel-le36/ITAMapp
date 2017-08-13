@@ -143,13 +143,13 @@ namespace ITAMapp.Controllers
                 string formValue = Request.Form[label.FieldId.ToString()];
 
                 //Changes checked checkbox value to Yes
-                if(formValue == "true,false")
+                if(formValue == "on")
                 {
                     formValue = "Yes";
                 }
 
                 //Changes unchecked checkbox value to No
-                if(formValue == "false")
+                if(formValue == null)
                 {
                     formValue = "No";
                 }
@@ -239,13 +239,13 @@ namespace ITAMapp.Controllers
                 string formValue = Request.Form[fieldId.ToString()];
 
                 //Changes checked checkbox value to Yes
-                if (formValue == "true,false")
+                if (formValue == "on")
                 {
                     formValue = "Yes";
                 }
 
                 //Changes unchecked checkbox value to No
-                if (formValue == "false")
+                if (formValue == null)
                 {
                     formValue = "No";
                 }

@@ -40,7 +40,7 @@ namespace ITAMapp
                     new {controller ="Application",category="Application",action="Index"}
                     //template: "{controller=Application}/{action=Index}/{category=Application}/{id?}"
                     );
-                routes.MapRoute("admin", "Admin");
+                routes.MapRoute("admin", "Admin/{action}", new { controller = "Admin", action = "Index" });
 
             });
 
