@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ITAMapp.ViewModels
 {
-    public class EditAssetViewModel
+    public class EditAssetViewModel : HeaderViewModel
     {
         public List<FieldInfo> fields { get; set; }
         public List<CustomFieldList> dropdownFields { get; set; }

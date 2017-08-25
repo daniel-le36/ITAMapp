@@ -1,15 +1,17 @@
-﻿<head>
+﻿@model ITAMapp.ViewModels.HeaderViewModel
+<head>
     <title>Asset Manager</title>
     <link rel="stylesheet" type="text/css" href="~/css/header.css">
 </head>
 
 <div class="ColorBar">&nbsp;</div>
-<img src="~/ivari-logo-social.jpg" alt="" width="170" height="90" />
+<img src="~/it-asset-management.jpg" alt="" width="225" height="125" style="margin-top: 5px; margin-bottom: 5px;"/>
 <div class="menu">
-    <a href="/Application/Index"><span>Applications</span></a>
-    <a href="/Infrastructure/Index"><span>Infrastructure</span></a>
-    <a href="/Software/Index"><span>Software Licenses</span></a>
-    <a href="/Contractor/Index"><span>IT Contractors</span></a>
+    @foreach(var category in Model.categories)
+    {
+        <a href="/@(category.UrlName)/Index"><span>@category.CategoryDescription</span></a>
+
+    }
 </div>
 
 

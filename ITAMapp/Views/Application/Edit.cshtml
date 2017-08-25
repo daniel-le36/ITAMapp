@@ -50,10 +50,24 @@
                         //Checkbox
                         <p>
                             <label for="@field.FieldId">@field.FieldLabel</label>
-                            <input id="@field.FieldId.ToString()"
-                                   name="@field.FieldId.ToString()"
-                                   onchange="checkboxRequired(@field.FieldId.ToString())"
-                                   type="checkbox" />
+                            @{ if (field.FieldValue == "Yes")
+                                {
+                                    <input id="@field.FieldId.ToString()"
+                                           name="@field.FieldId.ToString()"
+                                           onchange="checkboxRequired(@field.FieldId.ToString())"
+                                           type="checkbox" 
+                                           checked/>
+                                }
+                                else
+                                {
+                                    <input id="@field.FieldId.ToString()"
+                                           name="@field.FieldId.ToString()"
+                                           onchange="checkboxRequired(@field.FieldId.ToString())"
+                                           type="checkbox" />
+
+                                }
+                            }
+                            
 
 
                             <fieldset id="set_@field.FieldId.ToString()">
@@ -64,14 +78,14 @@
                                 {
                                     if (subField.CollapsedBy == fieldId)
                                     {
-
+                                        <br />
                                         int subfieldId = field.FieldId;
                                         @switch (subField.FieldType)
                                         {
                                             case 1:
                                                 //Dropdown Field
                                                 <span>
-                                                    <label for="@subField.FieldLabel">@subField.FieldLabel: </label><select name="@subField.FieldId.ToString()" id="@(field.FieldId)_@counter">
+                                                    <label for="@subField.FieldLabel">@subField.FieldLabel: </label><select name="@subField.FieldId.ToString()" id="@subField.FieldLabel">
                                                         @foreach (var listValue in Model.dropdownFields)
                                                         {
                                                             @if (listValue.FieldId == subfieldId)
@@ -98,20 +112,20 @@
                                             case 3:
                                                 //Date
                                                 <span>
-                                                    <label for="@subField.FieldLabel">@subField.FieldLabel</label><input type="date" name="@subField.FieldId.ToString()" id="@(field.FieldId)_@counter" value="@subField.FieldValue" />
+                                                    <label for="@subField.FieldLabel">@subField.FieldLabel</label><input type="date" name="@subField.FieldId.ToString()" id="@subField.FieldLabel" value="@subField.FieldValue" />
                                                 </span>
                                                 break;
 
                                             case 4:
                                                 //Long text input
                                                 <span>
-                                                    <label for="@subField.FieldLabel">@subField.FieldLabel</label><textarea name="@subField.FieldId.ToString()" id="@(field.FieldId)_@counter">@subField.FieldValue</textarea>
+                                                    <label for="@subField.FieldLabel">@subField.FieldLabel</label><textarea name="@subField.FieldId.ToString()" id="@subField.FieldLabel">@subField.FieldValue</textarea>
                                                 </span>
                                                 break;
 
                                             default:
                                                 <span>
-                                                    <label for="@subField.FieldLabel">@subField.FieldLabel</label><input name="@subField.FieldId.ToString()" id="@(field.FieldId)_@counter" value="@subField.FieldValue" />
+                                                    <label for="@subField.FieldLabel">@subField.FieldLabel</label><input name="@subField.FieldId.ToString()" id="@subField.FieldLabel" value="@subField.FieldValue" />
                                                 </span>
                                                 break;
                                         }
@@ -280,11 +294,15 @@
                 return true
             }
 
+
         }
         else {
             return false;
 
         }
+
+
+
     }
 
 </script>

@@ -7,7 +7,7 @@ using ITAMapp.Models;
 
 namespace ITAMapp.ViewModels
 {
-    public class AddAssetViewModel
+    public class AddAssetViewModel : HeaderViewModel
     {
         public List<CustomFields> fields { get; set; }
         public List<CustomFieldList> dropdownFields { get; set; }

@@ -8,7 +8,7 @@ using ITAMapp.Models;
 
 namespace ITAMapp.ViewModels
 {
-    public class AssetViewModel
+    public class AssetViewModel : HeaderViewModel
     {
         public List<PropertyViewModel> fields { get; set; }
         public int identification { get; set; }

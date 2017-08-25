@@ -48,8 +48,20 @@ namespace ITAMapp.Controllers
                              where label.CategoryId == categoryId
                              select label.FieldLabel).ToList();
 
+            var categoryTitle = (from categories in _context.Categories
+                                 where categories.CategoryId == categoryId
+                                 select categories.CategoryDescription).FirstOrDefault();
+
+            var categoriesModels = (from categories in _context.Categories
+                                    select new Categories
+                                    {
+                                        CategoryId = categories.CategoryId,
+                                        CategoryDescription = categories.CategoryDescription,
+                                        UrlName = categories.UrlName
+                                    }).ToList();
+
             //Creates a new CategoryViewModel which contains the category, list of assets, and field names then returns it
-            return View(new CategoryViewModel { assets = assetList, labels = labelList, urlCategory = category});
+            return View(new CategoryViewModel { assets = assetList, labels = labelList, urlCategory = category, title = categoryTitle, categories = categoriesModels});
 
         }
 
@@ -85,8 +97,16 @@ namespace ITAMapp.Controllers
 
                                                     }).ToList();
 
+            var categoriesModels = (from categories in _context.Categories
+                                    select new Categories
+                                    {
+                                        CategoryId = categories.CategoryId,
+                                        CategoryDescription = categories.CategoryDescription,
+                                        UrlName = categories.UrlName
+                                    }).ToList();
+
             //Creates a new AddAssetViewModel which contains the list of fields, field values for dropdown fields, and the category then returns it
-            return View(new AddAssetViewModel { fields = properties, dropdownFields = dropdownFields, urlCategory = category});
+            return View(new AddAssetViewModel { fields = properties, dropdownFields = dropdownFields, urlCategory = category, categories = categoriesModels});
             
         }
 
@@ -207,8 +227,16 @@ namespace ITAMapp.Controllers
                 
             }
 
+            var categoriesModels = (from categories in _context.Categories
+                                    select new Categories
+                                    {
+                                        CategoryId = categories.CategoryId,
+                                        CategoryDescription = categories.CategoryDescription,
+                                        UrlName = categories.UrlName
+                                    }).ToList();
+
             //Creates a new EditAssetViewModel which contains the list of dropdown values, list fields with their values, the id, and category then returns it
-            return View(new EditAssetViewModel { dropdownFields = dropdownFields, fields = properties, identifier = id, urlCategory = category});
+            return View(new EditAssetViewModel { dropdownFields = dropdownFields, fields = properties, identifier = id, urlCategory = category, categories = categoriesModels});
         }
         [HttpPost]
         public IActionResult update(string category)
